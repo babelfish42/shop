@@ -7,6 +7,7 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 class OrdersController < ApplicationController
+    skip_before_filter :authorize, :only => [:new, :create]
   # GET /orders
   # GET /orders.xml
   def index
@@ -38,7 +39,6 @@ class OrdersController < ApplicationController
       redirect_to store_url, :notice => "Your cart is empty"
       return
     end
-
     @order = Order.new
 
     respond_to do |format|
@@ -62,8 +62,9 @@ class OrdersController < ApplicationController
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
+        Notifier.order_received(@order).deliver
         format.html { redirect_to(store_url, :notice => 
-          'Thank you for your order.') }
+          I18n.t('.thanks')) }
         format.xml  { render :xml => @order, :status => :created,
           :location => @order }
       else
