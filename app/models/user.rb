@@ -1,11 +1,3 @@
-#---
-# Excerpted from "Agile Web Development with Rails, 4rd Ed.",
-# published by The Pragmatic Bookshelf.
-# Copyrights apply to this code. It may not be used to create training material, 
-# courses, books, articles, and the like. Contact us if you are in doubt.
-# We make no guarantees that this code is fit for any purpose. 
-# Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
-#---
 require 'digest/sha2'
 
 class User < ActiveRecord::Base
@@ -13,9 +5,9 @@ class User < ActiveRecord::Base
  
   validates :password, :confirmation => true
   attr_accessor :password_confirmation
-  attr_reader   :password
+  attr_reader :password
 
-  validate  :password_must_be_present
+  validate :password_must_be_present
   
   def User.authenticate(name, password)
     if user = find_by_name(name)
@@ -45,7 +37,7 @@ class User < ActiveRecord::Base
     if User.count.zero?
       raise "Can't delete last user"
     end
-  end     
+  end
 
   private
 
@@ -57,3 +49,4 @@ class User < ActiveRecord::Base
       self.salt = self.object_id.to_s + rand.to_s
     end
 end
+

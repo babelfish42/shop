@@ -1,16 +1,27 @@
-<div class="cart_title">Your Cart</div> 
-<table> 
-  <%= render(cart.line_items) %>
+<!-- START_HIGHLIGHT -->
+<div class="cart_title"><%= t('.title') %></div>
+<!-- END_HIGHLIGHT -->
+<table>
+<% if line_item == @current_item %>
+  <tr id="current_item">
+<% else %>
+  <tr>
+<% end %>
+  <td><%= line_item.quantity %>&times;</td>
+  <td><%= line_item.product.title %></td>
+  <td class="item_price"><%= number_to_currency(line_item.total_price) %></td>
+</tr> 
  
-  <tr class="total_line"> 
-    <td colspan="2">Total</td> 
-    <td class="total_cell"><%= number_to_currency(cart.total_price) %></td> 
-  </tr> 
+  <tr class="total_line">
+    <td colspan="2">Total</td>
+    <td class="total_cell"><%= number_to_currency(cart.total_price) %></td>
+  </tr>
  
-</table> 
-<!-- START_HIGHLIGHT --> 
-<%= button_to "Checkout", new_order_path, :method => :get %>
-<!-- END_HIGHLIGHT --> 
-<%= button_to 'Empty cart', cart, :method => :delete,
-#<!-- END_HIGHLIGHT --> 
+</table>
+<!-- START_HIGHLIGHT -->
+<%= button_to t('.checkout'), new_order_path, :method => :get %>
+<!-- END_HIGHLIGHT -->
+<!-- START_HIGHLIGHT -->
+<%= button_to t('.empty'), cart, :method => :delete,
+# END_HIGHLIGHT
     :confirm => 'Are you sure?' %>
